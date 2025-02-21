@@ -6,7 +6,7 @@ async function getAllMovies() {
             include: {
                 userReviews: true,
                 movieStills: true,
-                persons: true,
+                person: true,
                 genres: true
             }
         })
@@ -25,7 +25,7 @@ async function getMovieById(id: number) {
                 id: id
             },
             include: {
-                persons: true,
+                person: true,
                 genres: true,
             }
         })
@@ -39,9 +39,9 @@ async function getMovieById(id: number) {
 
 async function getAllRecentlyViewedMovie() {
     try {
-        const movies = await Prisma.recentlyViewedMovie.findMany({
+        const movies = await Prisma.recentlyViewedFilm.findMany({
             include: {
-                movie: true
+                Movie: true
             }
         })
         console.log(movies)
