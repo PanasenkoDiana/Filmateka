@@ -1,21 +1,7 @@
 import moviesRepository from "./moviesRepository"
+import { IError, ISuccess, Movie, RecentlyViewedMovie } from "../types/types"
 
-interface IMoviesSuccess {
-    status: 'success';
-    data: any[]
-}
-
-interface IMovieSuccess {
-    status: 'success';
-    data: any
-}
-
-interface IError {
-    status: 'error';
-    message: string
-}
-
-async function getAllMovies(): Promise< IMoviesSuccess | IError > {
+async function getAllMovies(): Promise< IError | ISuccess<Movie[]> > {
     const movies = await moviesRepository.getAllMovies()
     if (!movies){
         return { status: 'error', message: 'Movies not found' }
@@ -23,26 +9,27 @@ async function getAllMovies(): Promise< IMoviesSuccess | IError > {
     return { status: 'success', data: movies }
 }
 
-async function getMovieById(id: number): Promise< IMovieSuccess | IError > {
-    const movie = await moviesRepository.getMovieById(id)
+async function getMovieById(id: number): Promise< IError | ISuccess<Movie> > {
+    const movie = await moviesRepository.getMovieById(id);
     if (!movie){
         return { status: 'error', message: `Movie with id: ${id} not found`}
     }
     return { status: 'success', data: movie }
 }
 
-async function getAllRecentlyViewedFilm(): Promise< IMoviesSuccess | IError > {
-    const movies = await moviesRepository.getAllMovies()
+async function getAllRecentlyViewedMovie(): Promise< IError | ISuccess<RecentlyViewedMovie[]>> {
+    const movies = await moviesRepository.getAllRecentlyViewedMovie()
     if (!movies){
         return { status: 'error', message: 'Recently viewed movies not found' }
     }
     return { status: 'success', data: movies }
 }
 
+
 const functions = {
     getAllMovies: getAllMovies,
     getMovieById: getMovieById,
-    getAllRecentlyViewedFilm: getAllRecentlyViewedFilm
+    getAllRecentlyViewedMovie: getAllRecentlyViewedMovie
 }
 
 export default functions

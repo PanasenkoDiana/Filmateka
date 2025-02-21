@@ -1,4 +1,5 @@
-import { prisma } from "./prismaClient"
+import { PersonRole, Role } from "@prisma/client";
+import { Prisma } from "./prismaClient"
 
 const movieGenresSelect = [
     "Action",
@@ -14,16 +15,28 @@ const movieGenresSelect = [
     "War"
 ];
 
+const personRoles = [
+    "ACTOR",
+    "DIRECTOR",
+]
+
 async function main() {
     for (let i = 0; i < movieGenresSelect.length; i++) {
-        await prisma.genre.create({
+        await Prisma.genre.create({
             data: {
                 name: movieGenresSelect[i]
             }
         })
     }
 
-    await prisma.movie.create({
+    await Prisma.personRole.createMany({
+        data: [
+            { role: Role.ACTOR },
+            { role: Role.DIRECTOR }
+        ],
+    })
+
+    await Prisma.movie.create({
         data: {
             title: "The Film",
             rating: 4.9,
@@ -51,12 +64,18 @@ async function main() {
         }
     })
 
-    await prisma.person.create({
+    await Prisma.person.create({
         data: {
             name: "Dwayne",
             surname: "Johnson",
-            actor: true,
-            director: false,
+            roles: {
+                connectOrCreate: [
+                    {
+                        create: { role: Role.ACTOR },
+                        where: { id: 1 },
+                    }
+                ]
+            },
             photo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Dwayne_Johnson_2%2C_2013.jpg/279px-Dwayne_Johnson_2%2C_2013.jpg",
             description: "Двейн Ду́глас (Ду́ґлас) Джо́нсон (англ. Dwayne Douglas Johnson; нар. 2 травня 1972, Гейвард, Каліфорнія), спортивне та сценічне прізвисько Скеля (англ. The Rock) — американо-канадійський[6] актор, а також відомий реслер. З 1996 року по 2004 рік виступав в World Wrestling Federation/Entertainment (WWF/E). З 2011 року знову працює в WWE, виступаючи в основному на бренді Raw. Є восьмиразовим чемпіоном WWF/E, дворазовим чемпіоном у важкій вазі WCW, дворазовим інтерконтинентальним чемпіоном WWF і п'ятикратним чемпіоном командним WWF. Також є шостим чемпіоном Потрійної корони і переможцем Королівської битви 2000 року.",
             movies: {
@@ -64,14 +83,15 @@ async function main() {
             }
         }
     })
+
 }
 
 main()
   .then(async () => {
-    await prisma.$disconnect()
+    await Prisma.$disconnect()
   })
   .catch(async (e) => {
     console.error(e)
-    await prisma.$disconnect()
+    await Prisma.$disconnect()
     process.exit(1)
-  })
+})

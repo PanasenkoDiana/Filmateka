@@ -1,57 +1,61 @@
-import { prisma } from "../../prisma/prismaClient"
+import { Prisma } from "../../prisma/prismaClient"
 
 async function getAllMovies() {
     try {
-        const movies = await prisma.movie.findMany({
+        const movies = await Prisma.movie.findMany({
             include: {
+                userReviews: true,
+                movieStills: true,
+                persons: true,
                 genres: true
             }
         })
         console.log(movies)
         return movies
     } catch (error) {
-        console.error("Error getMovies: ", error);
+        console.error("Error getAllMovies: ", error);
         throw error;
     }
 }
 
 async function getMovieById(id: number) {
     try {
-        const movie = await prisma.movie.findFirst({
+        const movie = await Prisma.movie.findUnique({
             where: {
                 id: id
             },
             include: {
-                genres: true
+                persons: true,
+                genres: true,
             }
         })
         console.log(movie)
         return movie
     } catch (error) {
         console.error("Error getMovieById: ", error);
-        throw error;
+        throw error
     }
 }
 
-async function getAllRecentlyViewedFilm() {
+async function getAllRecentlyViewedMovie() {
     try {
-        const movies = await prisma.recentlyViewedFilm.findMany({
+        const movies = await Prisma.recentlyViewedMovie.findMany({
             include: {
-                Movie: true
+                movie: true
             }
         })
         console.log(movies)
         return movies
     } catch (error) {
         console.error("Error getMovies: ", error);
-        throw error;
+        throw error
     }
 }
 
 const functions = {
     getAllMovies: getAllMovies,
     getMovieById: getMovieById,
-    getAllRecentlyViewedFilm: getAllRecentlyViewedFilm
+    getAllRecentlyViewedMovie: getAllRecentlyViewedMovie
 }
 
 export default functions

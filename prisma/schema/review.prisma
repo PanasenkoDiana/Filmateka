@@ -4,6 +4,7 @@ model UserReview {
   userId  Int
   review  String
   rating  Float
-  Movie   Movie  @relation(fields: [movieId], references: [id])
-  User    User   @relation(fields: [userId], references: [id])
+  movie   Movie  @relation(fields: [movieId], references: [id])
+  user    User   @relation(fields: [userId], references: [id])
 }
+ 

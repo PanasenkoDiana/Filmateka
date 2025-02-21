@@ -1,19 +1,20 @@
 model Movie {
-  id                 Int                  @id @default(autoincrement())
-  title              String
-  rating             Float?
-  releaseYear        Int
-  mainLanguage       String
-  productionCountry  String
-  ageRating          String
-  runtime            Int
-  poster             String?
-  shortDescription   String?
-  additionalInfo     String?
-  interestingFacts   String?
-  userReviews        UserReview[]
-  movieStills        Image[]
-  person             Person[]
-  genres             Genre[]              @relation("MovieGenres")
-  RecentlyViewedFilm RecentlyViewedFilm[]
+  id                  Int                   @id @default(autoincrement())
+  title               String
+  rating              Float?
+  releaseYear         Int
+  mainLanguage        String
+  productionCountry   String
+  ageRating           String
+  runtime             Int
+  poster              String?
+  shortDescription    String?
+  additionalInfo      String?
+  interestingFacts    String?
+  userReviews         UserReview[]
+  movieStills         Image[]
+  persons             Person[]
+  genres              Genre[]               @relation("MovieGenres")
+  recentlyViewedMovie RecentlyViewedMovie[]
 }
+ 

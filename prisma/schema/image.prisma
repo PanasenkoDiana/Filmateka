@@ -2,5 +2,5 @@ model Image {
   id      Int    @id @default(autoincrement())
   url     String
   movieId Int
-  Movie   Movie  @relation(fields: [movieId], references: [id])
+  movie   Movie  @relation(fields: [movieId], references: [id])
 }

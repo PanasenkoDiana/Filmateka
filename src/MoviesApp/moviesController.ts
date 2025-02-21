@@ -20,8 +20,8 @@ async function getMovieById(req: Request, res: Response) {
     }
 }
 
-async function getAllRecentlyViewedFilm(req: Request, res: Response) {
-    const context = await moviesService.getAllRecentlyViewedFilm()
+async function getAllRecentlyViewedMovie(req: Request, res: Response) {
+    const context = await moviesService.getAllRecentlyViewedMovie()
     if (context.status == "error") {
         res.send(context.message)
     } else {
@@ -32,7 +32,7 @@ async function getAllRecentlyViewedFilm(req: Request, res: Response) {
 const functions = {
     getAllMovies: getAllMovies,
     getMovieById: getMovieById,
-    getAllRecentlyViewedFilm: getAllRecentlyViewedFilm
+    getAllRecentlyViewedMovie: getAllRecentlyViewedMovie
 }
 
 export default functions

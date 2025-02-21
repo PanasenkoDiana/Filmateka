@@ -1,16 +1,7 @@
 import genresRepository from "./genresRepository"
+import { IError, ISuccess,  Genre } from "../types/types"
 
-interface IGenresSuccess {
-    status: 'success';
-    data: any[]
-}
-
-interface IGenresError {
-    status: 'error';
-    message: string
-}
-
-async function getAllGenres(): Promise< IGenresSuccess | IGenresError > {
+async function getAllGenres(): Promise< IError | ISuccess<Genre[]> > {
     const data = await genresRepository.getAllGenres()
     if (!data){
         return { status: 'error', message: 'Movies not found' }
