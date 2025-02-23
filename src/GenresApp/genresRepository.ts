@@ -2,12 +2,11 @@ import { Prisma } from "../../prisma/prismaClient"
 
 async function getAllGenres() {
     try {
-        const data = await Prisma.genre.findMany()
-        console.log(data)
-        return data
+        const genres = await Prisma.genre.findMany()
+        console.log(genres)
+        return genres
     } catch (error) {
-        console.error("Error getAllGenres: ", error);
-        throw error;
+        console.log("Error getAllGenres: ", error)
     }
 }
 

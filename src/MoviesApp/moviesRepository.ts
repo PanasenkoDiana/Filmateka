@@ -4,17 +4,13 @@ async function getAllMovies() {
     try {
         const movies = await Prisma.movie.findMany({
             include: {
-                userReviews: true,
-                movieStills: true,
-                person: true,
                 genres: true
             }
         })
         console.log(movies)
         return movies
     } catch (error) {
-        console.error("Error getAllMovies: ", error);
-        throw error;
+        console.log("Error getAllMovies: ", error)
     }
 }
 
@@ -25,15 +21,16 @@ async function getMovieById(id: number) {
                 id: id
             },
             include: {
-                person: true,
+                comments: true,
+                movieStills: true,
+                persons: true,
                 genres: true,
             }
         })
         console.log(movie)
         return movie
     } catch (error) {
-        console.error("Error getMovieById: ", error);
-        throw error
+        console.log("Error getMovieById: ", error)
     }
 }
 
