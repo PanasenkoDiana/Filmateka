@@ -4,7 +4,7 @@ async function getAllPersons() {
     try {
         const data = await Prisma.person.findMany({
             include: {
-                // roles: true
+                roles: true
             }
         })
         console.log(data)
@@ -22,7 +22,7 @@ async function getPersonById(id: number) {
             },
             include: {
                 movies: true,
-                // roles: true
+                roles: true
             }
         })
         console.log(person)
