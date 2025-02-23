@@ -36,9 +36,9 @@ async function getMovieById(id: number) {
 
 async function getAllRecentlyViewedMovie() {
     try {
-        const movies = await Prisma.recentlyViewedFilm.findMany({
+        const movies = await Prisma.recentlyViewedMovie.findMany({
             include: {
-                Movie: true
+                movie: true
             }
         })
         console.log(movies)
