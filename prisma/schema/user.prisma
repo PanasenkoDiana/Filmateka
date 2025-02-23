@@ -1,15 +1,18 @@
 model User {
-  id                   Int                   @id @default(autoincrement())
-  name                 String
-  email                String                @unique
-  password             String
-  role                 UserRole
-  userReviews          UserReview[]
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  password     String
+  profileImage String?
+  age          String
+  role         UserRole
+
+  comments             Comment[]
   recentlyViewedMovies RecentlyViewedMovie[]
+  favoriteMovies       Movie[]
 }
 
 enum UserRole {
   USER
   ADMIN
 }
- 

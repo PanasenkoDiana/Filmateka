@@ -10,8 +10,7 @@ async function getAllPersons() {
         console.log(data)
         return data
     } catch (error) {
-        console.error("Error getAllPersons: ", error);
-        throw error
+        console.log("Error getAllPersons: ", error);
     }
 }
 
@@ -29,8 +28,7 @@ async function getPersonById(id: number) {
         console.log(person)
         return person
     } catch (error) {
-        console.error("Error getMovieById: ", error);
-        throw error
+        console.log("Error getMovieById: ", error);
     }
 }
 

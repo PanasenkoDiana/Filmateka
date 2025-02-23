@@ -1,0 +1,11 @@
+model Comment {
+  id     Int    @id @default(autoincrement())
+  text   String
+  rating Float
+
+  movieId Int
+  movie   Movie @relation(fields: [movieId], references: [id])
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+}

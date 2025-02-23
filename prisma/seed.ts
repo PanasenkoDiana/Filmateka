@@ -1,4 +1,3 @@
-import { PersonRole, Role } from "@prisma/client";
 import { Prisma } from "./prismaClient"
 
 const movieGenresSelect = [
@@ -16,8 +15,8 @@ const movieGenresSelect = [
 ];
 
 const personRoles = [
-    "ACTOR",
-    "DIRECTOR",
+    "Actor",
+    "Director"
 ]
 
 async function main() {
@@ -29,12 +28,14 @@ async function main() {
         })
     }
 
-    await Prisma.personRole.createMany({
-        data: [
-            { role: Role.ACTOR },
-            { role: Role.DIRECTOR }
-        ],
-    })
+    for (let i = 0; i < personRoles.length; i++) {
+        await Prisma.personRole.create({
+            data: {
+                name: personRoles[i]
+            }
+        })
+    }
+
 
     await Prisma.movie.create({
         data: {
@@ -71,8 +72,8 @@ async function main() {
             roles: {
                 connectOrCreate: [
                     {
-                        create: { role: Role.ACTOR },
-                        where: { id: 1 },
+                        create: { name: "Actor" },
+                        where: { id: 1 }
                     }
                 ]
             },

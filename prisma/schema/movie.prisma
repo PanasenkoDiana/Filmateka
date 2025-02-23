@@ -11,10 +11,11 @@ model Movie {
   shortDescription    String?
   additionalInfo      String?
   interestingFacts    String?
-  userReviews         UserReview[]
+  comments            Comment[]
   movieStills         Image[]
   persons             Person[]
   genres              Genre[]               @relation("MovieGenres")
   recentlyViewedMovie RecentlyViewedMovie[]
+
+  favorite User[]
 }
- 
