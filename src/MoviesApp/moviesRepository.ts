@@ -1,4 +1,6 @@
-import { Prisma } from "../../prisma/prismaClient"
+import { PrismaClient } from '@prisma/client'
+
+const Prisma = new PrismaClient()
 
 async function getAllMovies() {
     try {
@@ -22,7 +24,7 @@ async function getMovieById(id: number) {
             },
             include: {
                 comments: true,
-                movieStills: true,
+                images: true,
                 persons: true,
                 genres: true,
             }

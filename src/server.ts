@@ -12,6 +12,7 @@ const HOST = 'localhost'
 const PORT = 8000
 
 app.use(cors())
+app.use(express.json())
 
 app.use("/api", moviesRouter, genresRouter, personRouter, userRouter)
 
