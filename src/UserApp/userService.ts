@@ -17,9 +17,25 @@ async function createUser(data: CreateUser): Promise< IError | ISuccess<User> > 
     return { status: 'success', data: newUser}
 }
 
+async function authUser(email: string): Promise< IError | ISuccess<User> >{
+    let user = await userRepository.findUserByEmail(email);
+
+    if (!user){
+        return {status: 'error', message: 'user not found'};
+    }
+    
+    // if (user.password != password){
+    //     return {status: 'error', message: 'nepravilniy password'};
+    // }
+
+    return {status: 'success', data: user};
+}
+
+
 const functions = {
     getUserById: getUserById,
-    createUser: createUser
+    createUser: createUser,
+    authUser: authUser
 }
 
 export default functions

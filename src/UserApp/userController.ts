@@ -13,9 +13,16 @@ async function createUser(req: Request, res: Response) {
     res.json(context)
 }
 
+async function authUser(req: Request, res: Response) {
+    const data = req.body
+    const user = await userService.authUser(data.email)
+    res.json(user)
+}
+
 const functions = {
     getUserById: getUserById,
-    createUser: createUser
+    createUser: createUser,
+    authUser: authUser,
 }
 
 export default functions
