@@ -1,5 +1,7 @@
 import userRepository from "./userRepository"
 import { CreateUser, IError, ISuccess, Person, User } from "../types/types"
+import { sign } from "jsonwebtoken";
+import { SECRET_KEY } from "../config/token";
 
 async function getUserById(id: number): Promise< IError | ISuccess<User> > {
     const movie = await userRepository.getUserById(id);
@@ -17,18 +19,20 @@ async function createUser(data: CreateUser): Promise< IError | ISuccess<User> > 
     return { status: 'success', data: newUser}
 }
 
-async function authUser(email: string): Promise< IError | ISuccess<User> >{
+async function authUser(email: string, password: string): Promise< IError | ISuccess<string> >{
     let user = await userRepository.findUserByEmail(email);
 
     if (!user){
         return {status: 'error', message: 'user not found'};
     }
     
-    // if (user.password != password){
-    //     return {status: 'error', message: 'nepravilniy password'};
-    // }
+    if (user.password != password){
+        return {status: 'error', message: 'nepravilniy password'};
+    }
 
-    return {status: 'success', data: user};
+    const token = sign(user, SECRET_KEY, {expiresIn: '1h'})
+
+    return {status: 'success', data: token};
 }
 
 
