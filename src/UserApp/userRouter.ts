@@ -1,23 +1,12 @@
-import { Router } from 'express'
-import userController from './userController'
-import {authMiddleware} from './authMiddleware'
+import { Router } from "express";
+import { UserController } from "./userController";
+import { authMiddleware } from "./authMiddleware";
 
-const router = Router()
+const router = Router();
+const userController = new UserController();
 
-// Public routes
-router.post('/register', async (req, res) => {
-    await userController.createUser(req, res);
-})
-router.post('/login', async (req, res) => {
-    await userController.loginUser(req, res);
-})
+router.post("/register", userController.register);
+router.post("/login", userController.login);
+router.get("/:id", authMiddleware, userController.getUserData);
 
-// Protected routes
-router.use(authMiddleware)
-router.get('/current', async (req, res) => {
-    await userController.getCurrentUser(req, res);
-})
-router.get('/:id', userController.getUserById)
-
-export default router
-
+export default router;

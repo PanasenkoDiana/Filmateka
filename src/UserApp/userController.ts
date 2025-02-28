@@ -1,63 +1,79 @@
-import { Request, Response } from "express"
-import userService from "./userService"
+import { Request, Response } from "express";
+import { UserService } from "./userService";
+import { UserRepository } from "./userRepository";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
-async function getUserById(req: Request, res: Response) {
-    const id: number = Number(req.params.id)
-    const context = await userService.getUserById(id)
-    res.json(context)
-}
+const userService = new UserService();
+const userRepository = new UserRepository();
+const SECRET_KEY = "your_jwt_secret_key";
 
-async function createUser(req: Request, res: Response) {
+export class UserController {
+  register = async (req: Request, res: Response): Promise<void> => {
     try {
-        const data = req.body
-        const context = await userService.createUser(data)
-        
-        if (context.status === 'error') {
-            return res.status(400).json(context)
-        }
-        
-        res.status(201).json(context)
+      const { username, email, password, profileImage, age, role } = req.body;
+      
+      const existingUser = await userService.findUserByEmail(email);
+      if (existingUser) {
+        res.status(400).json({ message: "Пользователь с таким email уже существует" });
+        return;
+      }
+      
+      const newUser = await userService.createUser({
+        username,
+        email,
+        password,
+        profileImage,
+        age,
+        role,
+      });
+      
+      res.status(201).json({ message: "Пользователь успешно зарегистрирован", user: newUser });
     } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Failed to create user' })
+      console.error(error);
+      res.status(500).json({ message: "Ошибка регистрации пользователя" });
     }
-}
+  };
 
-async function loginUser(req: Request, res: Response) {
+  login = async (req: Request, res: Response): Promise<void> => {
+    const { email, password } = req.body;
+
     try {
-        const { email, password } = req.body
-        if (!email || !password) {
-            return res.status(400).json({ status: 'error', message: 'Email and password are required' })
-        }
-        const context = await userService.loginUser(email, password)
-        if (context.status === 'error') {
-            return res.status(401).json(context)
-        }
-        res.json(context)
-    } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Login failed' })
-    }
-}
+      const user = await userService.findUserByEmail(email);
 
-async function getCurrentUser(req: Request, res: Response) {
+      if (!user) {
+        res.status(401).json({ message: "Неверный email или пароль" });
+        return;
+      }
+
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      if (!isPasswordValid) {
+        res.status(401).json({ message: "Неверный email или пароль" });
+        return;
+      }
+
+      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+
+      res.json({ message: "Авторизация успешна", token });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Ошибка авторизации" });
+    }
+  };
+
+  getUserData = async (req: Request, res: Response): Promise<void> => {
+    const userId = parseInt(req.params.id);
+    
     try {
-        const userId = (req as any).userId
-        const context = await userService.getUserById(userId)
-        
-        if (!context) {
-            return res.status(404).json({ status: 'error', message: 'User not found' })
-        }
-        
-        res.json(context)
+      const user = await userRepository.getUserById(userId);
+      if (!user) {
+        res.status(404).json({ message: "Пользователь не найден" });
+        return;
+      }
+      res.json({ message: "Авторизация успешна", username: user.username });
     } catch (error) {
-        res.status(500).json({ status: 'error', message: 'Failed to get current user' })
+      console.error(error);
+      res.status(500).json({ message: "Ошибка авторизации" });
     }
+  };
 }
-
-const functions = {
-    getUserById,
-    createUser,
-    loginUser,
-    getCurrentUser
-}
-
-export default functions

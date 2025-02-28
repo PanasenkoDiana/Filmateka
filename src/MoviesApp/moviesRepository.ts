@@ -24,7 +24,7 @@ async function getMovieById(id: number) {
             },
             include: {
                 comments: true,
-                images: true,
+                // images: true,
                 persons: true,
                 genres: true,
             }
