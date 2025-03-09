@@ -3,6 +3,6 @@ import genresController from './genresController'
 
 const router = Router()
 
-router.get('/genres', genresController.getAllGenres)
+router.get('/', genresController.getAllGenres)
 
 export default router

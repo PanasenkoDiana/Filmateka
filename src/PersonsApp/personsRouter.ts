@@ -3,7 +3,7 @@ import personsController from './personsController'
 
 const router = Router()
 
-router.get('/persons', personsController.getAllPersons)
-router.get('/person/:id', personsController.getPersonById)
+router.get('/', personsController.getAllPersons)
+router.get('/:id', personsController.getPersonById)
 
 export default router

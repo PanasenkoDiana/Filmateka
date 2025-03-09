@@ -3,7 +3,10 @@ import personsController from './userController'
 
 const router = Router()
 
-router.get('/user/:id', personsController.getUserById)
-router.post('/user/create', personsController.createUser)
+router.get('/', personsController.getAllUsers)
+router.get('/:id', personsController.getUserById)
+router.post('/create', personsController.createUser)
+router.post('/delete', personsController.deleteUser)
+
 
 export default router

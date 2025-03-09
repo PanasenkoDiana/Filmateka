@@ -3,8 +3,8 @@ import moviesController from './moviesController'
 
 const router = Router()
 
-router.get('/movies', moviesController.getAllMovies)
-router.get('/movie/:id', moviesController.getMovieById)
-router.get('/recently-viewed-movies', moviesController.getAllRecentlyViewedMovie)
+router.get('', moviesController.getAllMovies)
+router.get('/:id', moviesController.getMovieById)
+router.get('/recently-viewed', moviesController.getAllRecentlyViewedMovie)
 
 export default router

@@ -2,19 +2,19 @@ import { Request, Response } from "express"
 import moviesService from "./moviesService"
 
 async function getAllMovies(req: Request, res: Response) {
-    const context = await moviesService.getAllMovies()
-    res.json(context)
+    const result = await moviesService.getAllMovies()
+    res.json(result)
 }
 
 async function getMovieById(req: Request, res: Response) {
     let id: number = Number(req.params.id)
-    const context = await moviesService.getMovieById(id)
-    res.json(context)
+    const result = await moviesService.getMovieById(id)
+    res.json(result)
 }
 
 async function getAllRecentlyViewedMovie(req: Request, res: Response) {
-    const context = await moviesService.getAllRecentlyViewedMovie()
-    res.json(context)
+    const result = await moviesService.getAllRecentlyViewedMovie()
+    res.json(result)
 }
 
 const functions = {

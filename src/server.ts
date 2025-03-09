@@ -13,7 +13,10 @@ const PORT = 8000
 
 app.use(cors())
 
-app.use("/api", moviesRouter, genresRouter, personRouter, userRouter)
+app.use("/api/movies/", moviesRouter)
+app.use("/api/genres/", genresRouter)
+app.use("/api/persons/", personRouter)
+app.use("/api/users/", userRouter)
 
 app.listen(PORT, HOST, () => {
     console.log(`Server running at http://${HOST}:${PORT}`);
