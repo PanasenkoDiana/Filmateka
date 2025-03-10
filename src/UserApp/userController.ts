@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 
 const userService = new UserService();
 const userRepository = new UserRepository();
-const SECRET_KEY = "your_jwt_secret_key";
+const SECRET_KEY = "secret_key";
 
 export class UserController {
   register = async (req: Request, res: Response): Promise<void> => {
