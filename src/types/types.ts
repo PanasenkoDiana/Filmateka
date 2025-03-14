@@ -10,18 +10,6 @@ export interface ISuccess<T> {
     data: T
 }
 
-export type Genre = Prisma.GenreGetPayload<{}>
+export type IImage = Prisma.ImageGetPayload<{}>
 
-export type Image = Prisma.ImageGetPayload<{}>
-
-export type Person = Prisma.PersonGetPayload<{}>
-
-export type Movie = Prisma.MovieGetPayload<{}>
-
-export type RecentlyViewedMovie = Prisma.RecentlyViewedMovieGetPayload<{}>
-
-export type Comment = Prisma.CommentGetPayload<{}>
-
-export type User = Prisma.UserGetPayload<{}>
-
-export type CreateUser = Prisma.UserCreateManyInput
+export type IComment = Prisma.CommentGetPayload<{}>

@@ -13,7 +13,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.2.1",
+    "@prisma/client": "^6.5.0",
     "@types/express": "^5.0.0",
     "@types/nodemon": "^1.19.6",
     "cors": "^2.8.5",

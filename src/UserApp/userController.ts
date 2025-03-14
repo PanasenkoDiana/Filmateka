@@ -12,24 +12,21 @@ async function getUserById(req: Request, res: Response) {
     res.json(result)
 }
 
-
 async function createUser(req: Request, res: Response) {
     const data = req.body
     const result = await userService.createUser(data)
     res.json(result)
 }
 
-async function deleteUser(req: Request, res: Response) {
+async function deleteUserById(req: Request, res: Response) {
     const id: number = Number(req.body.id)
-    const result = await userService.deleteUser(id)
+    const result = await userService.deleteUserById(id)
     res.json(result)
 }
 
-const functions = {
-    getAllUsers: getAllUsers,
-    getUserById: getUserById,
-    createUser: createUser,
-    deleteUser: deleteUser
+export default {
+    getAllUsers,
+    getUserById,
+    createUser,
+    deleteUserById
 }
-
-export default functions

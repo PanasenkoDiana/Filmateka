@@ -12,9 +12,21 @@ async function getPersonById(req: Request, res: Response) {
     res.json(result)
 }
 
-const functions = {
-    getAllPersons: getAllPersons,
-    getPersonById: getPersonById
+async function createPerson(req: Request, res: Response) {
+    const data = req.body
+    const result = await personsService.createPerson(data)
+    res.json(result)
 }
 
-export default functions
+async function deletePersonById(req: Request, res: Response) {
+    const id: number = Number(req.body.id)
+    const result = await personsService.deletePersonById(id)
+    res.json(result)
+}
+
+export default {
+    getAllPersons,
+    getPersonById,
+    createPerson,
+    deletePersonById
+}

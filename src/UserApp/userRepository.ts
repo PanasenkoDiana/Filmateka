@@ -1,5 +1,6 @@
 import { Prisma } from "../../prisma/prismaClient"
-import { CreateUser } from "../types/types"
+
+import { ICreateUser } from "./userTypes"
 
 async function getAllUsers() {
     try {
@@ -25,7 +26,7 @@ async function getUserById(id: number) {
     }
 }
 
-async function createUser(data: CreateUser) {
+async function createUser(data: ICreateUser) {
     try {
         const user = await Prisma.user.create({
             data: data
@@ -37,7 +38,7 @@ async function createUser(data: CreateUser) {
     }
 }
 
-async function deleteUser(id: number) {
+async function deleteUserById(id: number) {
     try {
         const user = await Prisma.user.delete({
             where: {
@@ -51,11 +52,9 @@ async function deleteUser(id: number) {
     }
 }
 
-const functions = {
-    getAllUsers: getAllUsers,
-    getUserById: getUserById,
-    createUser: createUser,
-    deleteUser: deleteUser
+export default {
+    getAllUsers,
+    getUserById,
+    createUser,
+    deleteUserById
 }
-
-export default functions

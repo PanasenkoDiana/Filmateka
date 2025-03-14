@@ -1,5 +1,7 @@
 import { Prisma } from "../../prisma/prismaClient"
 
+import { ICreateMovie } from './moviesTypes'
+
 async function getAllMovies() {
     try {
         const movies = await Prisma.movie.findMany({
@@ -34,6 +36,31 @@ async function getMovieById(id: number) {
     }
 }
 
+async function createMovie(data: ICreateMovie) {
+    try {
+        const movie = await Prisma.movie.create({
+            data: data
+        })
+        console.log(movie)
+        return movie
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function deleteMovieById(id: number) {
+    try {
+        const movie = await Prisma.movie.delete({
+            where: {
+                id: id
+            }
+        })
+        console.log(movie)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 async function getAllRecentlyViewedMovie() {
     try {
         const movies = await Prisma.recentlyViewedMovie.findMany({
@@ -49,10 +76,10 @@ async function getAllRecentlyViewedMovie() {
     }
 }
 
-const functions = {
-    getAllMovies: getAllMovies,
-    getMovieById: getMovieById,
-    getAllRecentlyViewedMovie: getAllRecentlyViewedMovie
+export default {
+    getAllMovies,
+    getMovieById,
+    createMovie,
+    deleteMovieById,
+    getAllRecentlyViewedMovie
 }
-
-export default functions

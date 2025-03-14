@@ -1,16 +1,39 @@
 import genresRepository from "./genresRepository"
-import { IError, ISuccess,  Genre } from "../types/types"
 
-async function getAllGenres(): Promise< IError | ISuccess<Genre[]> > {
+import { IError, ISuccess } from "../types/types"
+import { IGenre, ICreateGenre } from "./genresTypes"
+
+async function getAllGenres(): Promise< IError | ISuccess<IGenre[]> > {
     const genres = await genresRepository.getAllGenres()
     if (!genres){
-        return { status: 'error', message: 'Movies not found' }
+        return { status: 'error', message: 'Жанрів не знайдено' }
     }
     return { status: 'success', data: genres }
 }
 
-const functions = {
-    getAllGenres: getAllGenres
+async function getGenreById(id: number): Promise< IError | ISuccess<IGenre> > {
+    const genre = await genresRepository.getGenreById(id)
+    if (!genre){
+        return { status: 'error', message: 'Жанр не знайдено' }
+    }
+    return { status: 'success', data: genre }
 }
 
-export default functions
+async function createGenre(data: ICreateGenre): Promise< IError | ISuccess<IGenre> > {
+    const genre = await genresRepository.createGenre(data)
+    if (!genre){
+        return { status: 'error', message: 'Жанр не був створен' }
+    }
+    return { status: 'success', data: genre }
+}
+
+async function deleteGenreById(id: number) {
+    await genresRepository.deleteGenreById(id)
+}
+
+export default {
+    getAllGenres,
+    getGenreById,
+    createGenre,
+    deleteGenreById
+}
