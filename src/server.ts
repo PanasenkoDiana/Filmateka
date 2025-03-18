@@ -15,10 +15,10 @@ app.use(cors())
 app.use(express.json())
 
 
-app.use("/api/movies", moviesRouter)
-app.use("/api/genres", genresRouter)
-app.use("/api/persons", personRouter)
-app.use("/api/users", userRouter)
+app.use("/api", moviesRouter)
+app.use('/api', genresRouter)
+app.use("/api", personRouter)
+app.use("/api", userRouter)
 
 app.listen(PORT, HOST, () => {
     console.log(`Server running at http://${HOST}:${PORT}`);
