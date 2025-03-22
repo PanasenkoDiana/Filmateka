@@ -9,6 +9,39 @@ const userRepository = new UserRepository();
 const SECRET_KEY = "secret_key";
 
 export class UserController {
+  getAllUsers = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const users = await userRepository.getAllUsers();
+      res.status(200).json(users);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Ошибка при получении пользователей" });
+    }
+  };
+
+  updateUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = parseInt(req.params.id);
+      const userData = req.body;
+      const updatedUser = await userRepository.updateUser(userId, userData);
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Ошибка при обновлении пользователя" });
+    }
+  };
+
+  deleteUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = parseInt(req.params.id);
+      await userRepository.deleteUser(userId);
+      res.status(200).json({ message: "Пользователь успешно удален" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Ошибка при удалении пользователя" });
+    }
+  };
+
   register = async (req: Request, res: Response): Promise<void> => {
     try {
       const { username, email, password, profileImage, age, role } = req.body;
@@ -52,28 +85,24 @@ export class UserController {
         return;
       }
 
-      const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, { expiresIn: "1h" });
+      const token = jwt.sign(
+        { userId: user.id, email: user.email, role: user.role },
+        SECRET_KEY,
+        { expiresIn: "24h" }
+      );
 
-      res.json({ message: "Авторизация успешна", token });
+      res.status(200).json({
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          username: user.username,
+          role: user.role,
+        },
+      });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Ошибка авторизации" });
-    }
-  };
-
-  getUserData = async (req: Request, res: Response): Promise<void> => {
-    const userId = parseInt(req.params.id);
-    
-    try {
-      const user = await userRepository.getUserById(userId);
-      if (!user) {
-        res.status(404).json({ message: "Пользователь не найден" });
-        return;
-      }
-      res.json({ message: "Авторизация успешна", username: user.username });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Ошибка авторизации" });
+      res.status(500).json({ message: "Ошибка входа в систему" });
     }
   };
 }

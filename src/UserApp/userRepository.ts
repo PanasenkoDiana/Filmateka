@@ -3,6 +3,10 @@ import { PrismaClient, User } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export class UserRepository {
+  async getAllUsers(): Promise<User[]> {
+    return await prisma.user.findMany();
+  }
+
   async getUserById(id: number): Promise<User | null> {
     return await prisma.user.findUnique({
       where: { id },
