@@ -32,9 +32,37 @@ async function getPersonById(id: number) {
     }
 }
 
+async function deletePerson(id: number) {
+    try {
+        await Prisma.person.delete({
+            where: { id }
+        })
+        return { status: 'success', message: 'person deleted' }
+    } catch(error) {
+        console.error("Error deletePerson: ", error);
+        return { status: 'error', message: 'Failed to delete person' };
+    }
+}
+
+async function createPerson(name: string) {
+    try {
+        const person = await Prisma.person.create({
+            data: {
+                name
+            }
+        })
+        return person
+    } catch (error) {
+        console.error("Error createPerson: ", error);
+        return null
+    }
+}
+
 const functions = {
     getAllPersons: getAllPersons,
-    getPersonById: getPersonById
+    getPersonById: getPersonById,
+    deletePerson: deletePerson,
+    createPerson: createPerson, 
 }
 
 export default functions
