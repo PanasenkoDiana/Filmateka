@@ -1,9 +1,8 @@
-import express from "express";
-import { UserController } from "./userController";
+import express, { Router } from "express";
+import * as userController from "./userController";
 import { authMiddleware } from "./authMiddleware";
 
-const router = express.Router();
-const userController = new UserController();
+const router = Router();
 
 // Authentication routes
 router.post("/register", userController.register);

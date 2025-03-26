@@ -1,6 +1,0 @@
-model Genre {
-  id           Int     @id @default(autoincrement())
-  name         String
-  descriptions String?
-  movies       Movie[] @relation("MovieGenres")
-}

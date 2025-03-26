@@ -1,8 +1,0 @@
-model RecentlyViewedMovie {
-  id       Int      @id @default(autoincrement())
-  userId   Int
-  movieId  Int
-  viewedAt DateTime @default(now())
-  user     User     @relation(fields: [userId], references: [id])
-  movie    Movie    @relation(fields: [movieId], references: [id])
-}
