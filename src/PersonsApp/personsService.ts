@@ -26,25 +26,29 @@ async function deletePerson(id: number): Promise<IError | ISuccess<null>> {
     return await personsRepository.deletePerson(id) as IError | ISuccess<null>
 }
 
-async function createPerson(name: string): Promise<IError | ISuccess<Person>> {
+async function createPerson(name: string, surname: string | null, photo: string | null, description: string | null): Promise<IError | ISuccess<Person>> {
     if (!name || typeof name !== 'string'){
         return { status: 'error', message: 'Invalid name' } as IError
     }
 
-    const newPerson = await personsRepository.createPerson(name)
+    const newPerson = await personsRepository.createPerson(name, surname, photo, description)
 
     if(!newPerson) {
         return { status: 'error', message: 'Failed to create person' } as IError    
     }
 
+    // if(newPerson.photo !== null) {
+    //     console.log(newPerson.photo)
+    // }
+
     return { status:'success', data: newPerson } as ISuccess<Person>
 }
 
-async function updatePerson(id: number, name: string) {
+async function updatePerson(id: number, name: string, surname: string | null, photo: string | null, description: string | null) {
     try {
         const updatedPerson = await Prisma.person.update({
             where: { id },
-            data: { name },
+            data: { name, surname, photo, description},
         })
         return updatePerson
     } catch (error) {

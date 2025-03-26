@@ -22,11 +22,12 @@ async function deleteGenre(id: number) {
     }
 }
 
-async function createGenre(name: string) {
+async function createGenre(name: string, descriptions: string | null) {
     try {
         const newGenre = await Prisma.genre.create({
             data: {
                 name,
+                descriptions,
             },
         });
         return newGenre;

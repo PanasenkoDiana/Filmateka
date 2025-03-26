@@ -3,7 +3,8 @@ import { IError, ISuccess, Genre } from "../types/types";
 import { Prisma } from "../../prisma/prismaClient";
 
 async function getAllGenres(): Promise<IError | ISuccess<Genre[]>> {
-    const genres: Genre[] | null = (await genresRepository.getAllGenres()) ?? null;
+    // const genres: Genre[] | null = (await genresRepository.getAllGenres()) ?? null;
+    const genres = await genresRepository.getAllGenres()
     if (!genres) {
         return { status: "error", message: "Genres not found" } as IError;
     }
@@ -18,12 +19,12 @@ async function deleteGenre(id: number): Promise<IError | ISuccess<null>> {
     return await genresRepository.deleteGenre(id) as IError | ISuccess<null>;
 }
 
-async function createGenre(name: string): Promise<IError | ISuccess<Genre>> {
+async function createGenre(name: string, description: string | null): Promise<IError | ISuccess<Genre>> {
     if (!name || typeof name !== "string") {
         return { status: "error", message: "Invalid genre name" } as IError;
     }
 
-    const newGenre = await genresRepository.createGenre(name);
+    const newGenre = await genresRepository.createGenre(name, description);
 
     if (!newGenre) {
         return { status: "error", message: "Failed to create genre" } as IError;

@@ -7,7 +7,7 @@ async function getAllPersons() {
                 roles: true
             }
         })
-        console.log(data)
+        // console.log(data)
         return data
     } catch (error) {
         console.log("Error getAllPersons: ", error);
@@ -44,13 +44,17 @@ async function deletePerson(id: number) {
     }
 }
 
-async function createPerson(name: string) {
+async function createPerson(name: string, surname: string | null, photo: string | null, description: string | null) {
     try {
         const person = await Prisma.person.create({
             data: {
-                name
+                name,
+                surname,
+                photo,
+                description
             }
         })
+        console.log(person)
         return person
     } catch (error) {
         console.error("Error createPerson: ", error);

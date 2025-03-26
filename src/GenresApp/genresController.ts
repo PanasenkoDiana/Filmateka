@@ -13,13 +13,14 @@ async function deleteGenre(req: Request, res: Response) {
 }
 
 async function createGenre(req: Request, res: Response) {
-    const { name } = req.body;
-
+    const { name, description } = req.body;
+    // const hohol = req.body
+    // console.log(hohol.description)
     if (!name) {
         return
     }
 
-    const response = await genresService.createGenre(name);
+    const response = await genresService.createGenre(name, description);
     if (response.status === "error") {
         return
     }

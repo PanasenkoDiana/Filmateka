@@ -19,13 +19,13 @@ async function deletePerson(req: Request, res: Response) {
 }
 
 async function createPerson(req: Request, res: Response) {
-    const { name } = req.body
+    const { name, surname, photo, description } = req.body
 
     if (!name) {
         return
     }
 
-    const response = await personsService.createPerson(name);
+    const response = await personsService.createPerson(name, surname, photo, description);
     if (response.status === 'error') {
         return
     }
@@ -35,13 +35,13 @@ async function createPerson(req: Request, res: Response) {
 
 async function updatePerson(req: Request, res: Response) {
     const id = Number(req.params.id)
-    const { name } = req.body
+    const { name, surname, photo, description  } = req.body
 
     if (!name || !id) {
         return
     }
 
-    const updatedPerson = await personsService.updatePerson(id, name)
+    const updatedPerson = await personsService.updatePerson(id, name, surname, photo, description)
     if (!updatedPerson){
         return
     }
