@@ -12,6 +12,8 @@ async function getPersonById(req: Request, res: Response) {
     res.json(context)
 }
 
+
+
 const functions = {
     getAllPersons: getAllPersons,
     getPersonById: getPersonById

@@ -1,7 +1,8 @@
 import moviesRepository from "./moviesRepository"
-import { IError, ISuccess, Movie, RecentlyViewedMovie } from "../types/types"
+import { IError, ISuccess, RecentlyViewedMovie } from "../types/types"
+import { IMovie } from "./moviesTypes"
 
-async function getAllMovies(): Promise< IError | ISuccess<Movie[]> > {
+async function getAllMovies(): Promise< IError | ISuccess<IMovie[]> > {
     const movies = await moviesRepository.getAllMovies()
     if (!movies){
         return { status: 'error', message: 'Movies not found' }
@@ -9,13 +10,35 @@ async function getAllMovies(): Promise< IError | ISuccess<Movie[]> > {
     return { status: 'success', data: movies }
 }
 
-async function getMovieById(id: number): Promise< IError | ISuccess<Movie> > {
+async function getMovieById(id: number): Promise< IError | ISuccess< IMovie > > {
     const movie = await moviesRepository.getMovieById(id);
     if (!movie){
         return { status: 'error', message: `Movie with id: ${id} not found`}
     }
     return { status: 'success', data: movie }
 }
+
+async function createMovie(data: IMovie): Promise< IError | ISuccess< IMovie > > {
+    const movie = await moviesRepository.createMovie(data)
+    if (!movie){
+        return { status: 'error', message: 'Failed to create movie' }
+    }
+    return { status: 'success', data: movie }
+}
+
+async function deleteMovie(id: number) {
+    await moviesRepository.deleteMovie(id)
+    return { status:'success', message: 'Movie deleted successfully' }
+}
+
+async function updateMovie(data: IMovie): Promise< IError | ISuccess< IMovie > > {
+    const movie = await moviesRepository.updateMovie(data)
+    if (!movie){
+        return { status: 'error', message: 'Failed to update movie' }
+    }
+    return { status: 'success', data: movie }
+}
+
 
 async function getAllRecentlyViewedMovie(): Promise< IError | ISuccess<RecentlyViewedMovie[]>> {
     const movies = await moviesRepository.getAllRecentlyViewedMovie()
@@ -25,11 +48,13 @@ async function getAllRecentlyViewedMovie(): Promise< IError | ISuccess<RecentlyV
     return { status: 'success', data: movies }
 }
 
+ 
 
-const functions = {
+export default {
     getAllMovies: getAllMovies,
     getMovieById: getMovieById,
+    createMovie: createMovie,
+    updateMovie: updateMovie,
+    deleteMovie: deleteMovie,
     getAllRecentlyViewedMovie: getAllRecentlyViewedMovie
 }
-
-export default functions

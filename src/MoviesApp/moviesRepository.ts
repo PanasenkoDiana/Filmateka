@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { ICreateMovie, IMovie } from './moviesTypes'
 
 const Prisma = new PrismaClient()
 
@@ -12,7 +13,7 @@ async function getAllMovies() {
         console.log(movies)
         return movies
     } catch (error) {
-        console.log("Error getAllMovies: ", error)
+        console.log(error)
     }
 }
 
@@ -24,7 +25,7 @@ async function getMovieById(id: number) {
             },
             include: {
                 comments: true,
-                // images: true,
+                movieStills: true,
                 persons: true,
                 genres: true,
             }
@@ -32,7 +33,46 @@ async function getMovieById(id: number) {
         console.log(movie)
         return movie
     } catch (error) {
-        console.log("Error getMovieById: ", error)
+        console.log(error)
+    }
+}
+
+async function createMovie(data: ICreateMovie) {
+    try {
+        const movie = await Prisma.movie.create({
+            data: data
+        })
+        console.log(movie)
+        return movie
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function updateMovie(data: IMovie) {
+    try {
+        const movie = await Prisma.movie.update({
+            where: {
+                id: data.id
+            },
+            data: data
+        })
+        console.log(movie)
+        return movie
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function deleteMovie(id: number) {
+    try {
+        await Prisma.movie.delete({
+            where: {
+                id: id
+            }
+        })
+    } catch(error) {
+        console.error(error);
     }
 }
 
@@ -46,15 +86,15 @@ async function getAllRecentlyViewedMovie() {
         console.log(movies)
         return movies
     } catch (error) {
-        console.error("Error getMovies: ", error);
-        throw error
+        console.error(error)
     }
 }
 
-const functions = {
+export default {
     getAllMovies: getAllMovies,
     getMovieById: getMovieById,
+    createMovie: createMovie,
+    updateMovie: updateMovie,
+    deleteMovie: deleteMovie,
     getAllRecentlyViewedMovie: getAllRecentlyViewedMovie
 }
-
-export default functions
